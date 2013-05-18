@@ -10,7 +10,7 @@ class zookeeper(
   $myid     = $zookeeper::params::myid,
   $zk_dir   = $zookeeper::params::zk_dir,
   $log_dir  = $zookeeper::params::log_dir,
-  $cfg_dir  = $zookeeper::params::cfg_dir,
+  $etc_dir  = $zookeeper::params::etc_dir,
   $data_dir = $zookeeper::params::data_dir,
   # consider: expose java bin?
   $client_port = $zookeeper::params::client_port,
@@ -53,7 +53,7 @@ class zookeeper(
     before  => Anchor['zookeeper::end'],
   } ~>
 
-  service { "zookeeper":
+  class { "zookeeper::service":
     ensure  => "running",
     enable  => true,
     require => [ 

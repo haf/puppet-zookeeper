@@ -5,12 +5,9 @@
 class zookeeper::config(
   $heap_size             = $zookeeper::params::heap_size,
   $java_opts             = $zookeeper::params::java_opts,
-  $log4j_prop            = $zookeeper::params::log4j_prop,
   $rollingfile_threshold = $zookeeper::params::rollingfile_threshold,
   $tracefile_threshold   = $zookeeper::params::tracefile_threshold,
-  # zoo.cfg props:
-  # ...
-) inherits zookeeper::params {
+) {
   $user        = $zookeeper::user
   $group       = $zookeeper::group
   $zoo_main    = 'org.apache.zookeeper.server.quorum.QuorumPeerMain'

@@ -1,6 +1,6 @@
 class zookeeper::params {
   $version           = '3.4.5'
-  $download_url_base = 'http://apache.mirror3.ip-only.net/zookeeper/'
+  $download_url_base = 'http://apache.mirror3.ip-only.net/zookeeper'
   
   
   $myid        = hiera('myid', '1')
@@ -8,7 +8,7 @@ class zookeeper::params {
   # directories
   $zk_dir      = '/opt/zookeeper'
   $log_dir     = '/var/log/zookeeper'
-  $cfg_dir     = '/etc/zookeeper'
+  $etc_dir     = '/etc/zookeeper'
   $data_dir    = '/var/lib/zookeeper'
 
   # knowns
