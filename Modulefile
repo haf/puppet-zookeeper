@@ -1,0 +1,10 @@
+name 'haf-zookeeper'
+version '0.0.1'
+
+author 'Henrik Feldt'
+license 'MIT'
+project_page 'https://github.com/haf/puppet-zookeeper'
+source 'https://github.com/haf/puppet-zookeeper'
+summary ''
+description ''
+dependency 'maestrodev/wget', '==1.0.0'
