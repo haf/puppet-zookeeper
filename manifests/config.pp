@@ -13,7 +13,7 @@ class zookeeper::config(
   $zoo_main    = 'org.apache.zookeeper.server.quorum.QuorumPeerMain'
   $log_dir     = $zookeeper::log_dir
   $data_dir    = $zookeeper::data_dir
-  $cfg_dir     = $zookeeper::cfg_dir
+  $etc_dir     = $zookeeper::etc_dir
 
   $myid        = $zookeeper::myid
 
@@ -39,32 +39,43 @@ class zookeeper::config(
     mode   => 644, 
   }
 
-  file { "${cfg_dir}/myid":
+  file { $etc_dir:
+    ensure => directory,
+    owner  => $user,
+    group  => $group,
+    mode => 644,
+  }
+
+  file { "${etc_dir}/myid":
     ensure  => file, 
     content => template("zookeeper/conf/myid.erb"), 
     owner   => $user,
     group   => $group,
-    mode    => 644, 
+    mode    => 644,
+    require => File[$etc_dir],
   }
 
-  file { "${cfg_dir}/zoo.cfg":
+  file { "${etc_dir}/zoo.cfg":
     owner   => $user,
     group   => $group,
     mode    => 644,
-    content => template("zookeeper/conf/zoo.cfg.erb"), 
+    content => template("zookeeper/conf/zoo.cfg.erb"),
+    require => File[$etc_dir], 
   }
 
-  file { "${cfg_dir}/environment":
+  file { "${etc_dir}/environment":
     owner   => $user,
     group   => $group,
     mode    => 644,
-    content => template("zookeeper/conf/environment.erb"), 
+    content => template("zookeeper/conf/environment.erb"),
+    require => File[$etc_dir], 
   }
 
-  file { "${cfg_dir}/log4j.properties":
+  file { "${etc_dir}/log4j.properties":
     owner   => $user,
     group   => $group,
     mode    => 644,
-    content => template("zookeeper/conf/log4j.properties.erb"), 
+    content => template("zookeeper/conf/log4j.properties.erb"),
+    require => File[$etc_dir], 
   }
 }

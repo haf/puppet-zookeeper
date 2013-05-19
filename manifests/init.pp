@@ -35,6 +35,19 @@ class zookeeper(
 
   anchor { 'zookeeper::start': }
 
+  group { $group:
+    ensure  => present,
+    system  => true,
+    require => Anchor['zookeeper::start'],
+    before  => Anchor['zookeeper::end'],
+  } ->
+
+  svcutils::svcuser { $user:
+    group   => $group,
+    require => Anchor['zookeeper::start'],
+    before  => Anchor['zookeeper::end'],
+  } ->
+
   class { 'zookeeper::package':
     require => [
       Anchor['zookeeper::start'], 
@@ -43,10 +56,10 @@ class zookeeper(
     before  => Anchor['zookeeper::end'],
   } ->
 
-  class { 'zookeeper::cleanup':
-    require => Anchor['zookeeper::start'],
-    before  => Anchor['zookeeper::end'],
-  } ->
+  #class { 'zookeeper::cleanup':
+  #  require => Anchor['zookeeper::start'],
+  #  before  => Anchor['zookeeper::end'],
+  #} ->
 
   class { 'zookeeper::config': 
     require => Anchor['zookeeper::start'],
