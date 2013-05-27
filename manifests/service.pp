@@ -9,9 +9,11 @@ class zookeeper::service(
   $data_dir  = $zookeeper::data_dir
   $etc_dir   = $zookeeper::etc_dir
   $bin_dir   = $zookeeper::bin_dir
-  
-  # TODO: verify
+  $log4j_prop = $zookeeper::log4j_prop
+
   # https://github.com/globocom/zookeeper-centos-6/blob/master/redhat/zookeeper.init
+  $classpath = globby_join("$bin_dir/{../lib,..}/*.jar", ':')
+  $log_conf = 'file:///etc/zookeeper/log4j.properties'
 
   svcutils::mixsvc { 'zookeeper':
     ensure      => $ensure,
@@ -19,8 +21,11 @@ class zookeeper::service(
     user        => $user,
     group       => $group,
     log_dir     => $log_dir,
+    home        => $data_dir,
     exec        => "/usr/bin/java",
-    args        => "${bin_dir}/zkServer.sh start-foreground",
+    args        => "-Dzookeeper.log.dir=${log_dir} -Dlog4j.configuration=$log_conf -Dzookeeper.root.logger=${log4j_prop} -cp $classpath org.apache.zookeeper.server.quorum.QuorumPeerMain ${etc_dir}/zoo.cfg",
     description => 'ZooKeeper Server'
-  } 
+  }
 }
+
+# \"-Dzookeeper.log.dir=${ZOO_LOG_DIR}\" \"-Dzookeeper.root.logger=${ZOO_LOG4J_PROP}\" -cp ${CLASSPATH} ${ZOOMAIN} ${ZOOCFG}
