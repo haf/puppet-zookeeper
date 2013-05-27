@@ -19,8 +19,8 @@ class zookeeper::service(
     user        => $user,
     group       => $group,
     log_dir     => $log_dir,
-    exec        => "${bin_dir}/zkServer.sh start",
-    args        => '',
+    exec        => "/usr/bin/java",
+    args        => "${bin_dir}/zkServer.sh start-foreground",
     description => 'ZooKeeper Server'
   } 
 }
