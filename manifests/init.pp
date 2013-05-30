@@ -25,8 +25,6 @@ class zookeeper(
   $bin_dir  = "$zk_dir/bin"
   $snap_dir = $data_dir
 
-  # TODO: verify that svcutils cover all of https://github.com/globocom/zookeeper-centos-6/blob/master/redhat/zookeeper.init
-
   anchor { 'zookeeper::start': }
 
   group { $group:

@@ -22,8 +22,7 @@ class zookeeper::service(
     group       => $group,
     log_dir     => $log_dir,
     home        => $data_dir,
-    exec        => "/usr/bin/java",
-    args        => "-Dzookeeper.log.dir=${log_dir} -Dlog4j.configuration=$log_conf -Dzookeeper.root.logger=${log4j_prop} -cp $classpath org.apache.zookeeper.server.quorum.QuorumPeerMain ${etc_dir}/zoo.cfg",
+    exec        => "/usr/bin/java -Dzookeeper.log.dir=${log_dir} -Dlog4j.configuration=$log_conf -Dzookeeper.root.logger=${log4j_prop} -cp $classpath org.apache.zookeeper.server.quorum.QuorumPeerMain ${etc_dir}/zoo.cfg",
     description => 'ZooKeeper Server'
   }
 }
