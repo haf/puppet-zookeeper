@@ -8,22 +8,23 @@ class zookeeper::config(
   $rollingfile_threshold = $zookeeper::params::rollingfile_threshold,
   $tracefile_threshold   = $zookeeper::params::tracefile_threshold,
 ) {
-  $user        = $zookeeper::user
-  $group       = $zookeeper::group
-  $zoo_main    = 'org.apache.zookeeper.server.quorum.QuorumPeerMain'
-  $log_dir     = $zookeeper::log_dir
-  $data_dir    = $zookeeper::data_dir
-  $etc_dir     = $zookeeper::etc_dir
+  $user            = $zookeeper::user
+  $group           = $zookeeper::group
+  $zoo_main        = 'org.apache.zookeeper.server.quorum.QuorumPeerMain'
+  $log_dir         = $zookeeper::log_dir
+  $data_dir        = $zookeeper::data_dir
+  $etc_dir         = $zookeeper::etc_dir
 
-  $myid        = $zookeeper::myid
+  $myid            = $zookeeper::myid
 
-  $java_bin    = '/usr/bin/java'
-  $log4j_prop  = $zookeeper::log4j_prop
-  $heap_opts   = "-Xms${heap_size}m -Xmx${heap_size}m"
+  $java_bin        = '/usr/bin/java'
+  $log4j_prop      = $zookeeper::log4j_prop
+  $heap_opts       = "-Xms${heap_size}m -Xmx${heap_size}m"
   
   # zoo.cfg props:
-  $servers     = $zookeeper::servers
-  $client_port = $zookeeper::client_port
+  $servers         = $zookeeper::servers
+  $client_port     = $zookeeper::client_port
+  $manage_firewall = $zookeeper::manage_firewall
 
   file { "${log_dir}":
     owner  => $user,
@@ -43,7 +44,7 @@ class zookeeper::config(
     ensure => directory,
     owner  => $user,
     group  => $group,
-    mode => 644,
+    mode   => 644,
   }
 
   file { "${etc_dir}/myid":
@@ -77,5 +78,14 @@ class zookeeper::config(
     mode    => 644,
     content => template("zookeeper/conf/log4j.properties.erb"),
     require => File[$etc_dir], 
+  }
+
+  if $manage_firewall {
+    firewall { "100 allow zookeeper:$client_port":
+      proto   => 'tcp',
+      state   => ['NEW'],
+      dport   => $client_port,
+      action  => 'accept',
+    }
   }
 }

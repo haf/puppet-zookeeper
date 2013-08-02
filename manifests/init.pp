@@ -6,19 +6,20 @@
  *      ['zookeeper3:2888:3888', '...', ...]
  */
 class zookeeper(
-  $version  = $zookeeper::params::version,
-  $myid     = $zookeeper::params::myid,
-  $zk_dir   = $zookeeper::params::zk_dir,
-  $log_dir  = $zookeeper::params::log_dir,
-  $etc_dir  = $zookeeper::params::etc_dir,
-  $data_dir = $zookeeper::params::data_dir,
+  $version         = $zookeeper::params::version,
+  $myid            = $zookeeper::params::myid,
+  $zk_dir          = $zookeeper::params::zk_dir,
+  $log_dir         = $zookeeper::params::log_dir,
+  $etc_dir         = $zookeeper::params::etc_dir,
+  $data_dir        = $zookeeper::params::data_dir,
   # consider: expose java bin?
-  $client_port = $zookeeper::params::client_port,
-  $snap_count  = $zookeeper::params::snap_count,
-  $user        = $zookeeper::params::user,
-  $group       = $zookeeper::params::group,
-  $log4j_prop  = $zookeeper::params::log4j_prop,
-  $servers     = $zookeeper::params::servers
+  $client_port     = $zookeeper::params::client_port,
+  $snap_count      = $zookeeper::params::snap_count,
+  $user            = $zookeeper::params::user,
+  $group           = $zookeeper::params::group,
+  $log4j_prop      = $zookeeper::params::log4j_prop,
+  $servers         = $zookeeper::params::servers,
+  $manage_firewall = false
 ) inherits zookeeper::params {
   include svcutils
 
