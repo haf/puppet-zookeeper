@@ -19,7 +19,7 @@ PIDDIR=/var/run/zookeeper
 PIDFILE=/var/run/zookeeper/zookeeper.pid
 SCRIPTNAME=/etc/init.d/$NAME
 JAVA=<%= @java_bin %>
-ZOOMAIN="<%= zoo_main %>"
-ZOO_LOG4J_PROP="<%= log4j_prop %>"
+ZOOMAIN="<%= @zoo_main %>"
+ZOO_LOG4J_PROP="<%= @log4j_prop %>"
 JMXLOCALONLY=false
 JAVA_OPTS="<%= @java_opts %> <%= @heap_opts %>"
