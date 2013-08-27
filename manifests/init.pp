@@ -7,7 +7,6 @@
  */
 class zookeeper(
   $version         = $zookeeper::params::version,
-  $myid            = $zookeeper::params::myid,
   $zk_dir          = $zookeeper::params::zk_dir,
   $log_dir         = $zookeeper::params::log_dir,
   $etc_dir         = $zookeeper::params::etc_dir,
@@ -19,7 +18,10 @@ class zookeeper(
   $group           = $zookeeper::params::group,
   $log4j_prop      = $zookeeper::params::log4j_prop,
   $servers         = $zookeeper::params::servers,
-  $manage_firewall = false
+  $manage_firewall = false,
+  $myid
+  # env FACTER_ZK_MYID=44 facter --puppet zk_myid
+  # => 44
 ) inherits zookeeper::params {
   include svcutils
 

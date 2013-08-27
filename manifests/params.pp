@@ -14,7 +14,7 @@ class zookeeper::params {
   $java_bin    = '/usr/bin/java'
   $java_opts   = ''
   
-  $client_port = 2181
+  $client_port = 2181 # 2888:3888
   $snap_count  = 10000
   $user        = 'zookeeper'
   $group       = 'zookeeper'
@@ -25,6 +25,6 @@ class zookeeper::params {
   # log4j properties
   $heap_size             = 1000
   $log4j_prop            = 'INFO,ROLLINGFILE'
-  $rollingfile_threshold = 'ERROR'
+  $rollingfile_threshold = 'INFO'
   $tracefile_threshold   = 'TRACE'
 }

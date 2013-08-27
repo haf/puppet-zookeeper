@@ -29,9 +29,11 @@ clientPort=<%= @client_port %>
 #server.1=zookeeper1:2888:3888
 #server.2=zookeeper2:2888:3888
 #server.3=zookeeper3:2888:3888
-<% @servers.each do |h| -%>
-<%= h %>
-<% end -%>
+<% n = 1
+   @servers.each do |h| -%>
+server.<%=n%>=<%= h %>
+<% n = n + 1 
+   end -%>
 
 # To avoid seeks ZooKeeper allocates space in the transaction log file in
 # blocks of preAllocSize kilobytes. The default block size is 64M. One reason

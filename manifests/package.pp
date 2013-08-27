@@ -4,11 +4,6 @@ class zookeeper::package inherits zookeeper::params {
   $zk_dir       = $zookeeper::zk_dir
   $user         = $zookeeper::user
   $group        = $zookeeper::group
-  
-  
-#  notify { $zk_dir:
-#    message => "### $zk_dir"
-#  }
 
   wget::fetch { 'download_zookeeper':
     source      => $download_url,
@@ -18,16 +13,9 @@ class zookeeper::package inherits zookeeper::params {
   }
 
   exec { 'untar_zookeeper':
-    command => "tar xzvf /usr/local/src/zookeeper-$version.tar.bz",
+    command => "/bin/tar xzf /usr/local/src/zookeeper-$version.tar.bz",
     cwd     => '/opt',
     creates => "${zk_dir}-$version",
-    path    => ['/bin', '/usr/bin'],
-    before  => File[$zk_dir],
-  }
-
-  file { $zk_dir:
-    ensure => link,
-    target => "${zk_dir}-$version"
   }
 
   file { "${zk_dir}-$version":
@@ -36,5 +24,11 @@ class zookeeper::package inherits zookeeper::params {
     group   => $group,
     recurse => true,
     require => Exec['untar_zookeeper'],
+  }
+
+  file { $zk_dir:
+    ensure  => link,
+    target  => "${zk_dir}-$version",
+    require => File["${zk_dir}-$version"],
   }
 }

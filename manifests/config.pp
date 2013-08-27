@@ -47,7 +47,7 @@ class zookeeper::config(
     mode   => 644,
   }
 
-  file { "${etc_dir}/myid":
+  file { "${data_dir}/myid":
     ensure  => file, 
     content => template("zookeeper/conf/myid.erb"), 
     owner   => $user,
@@ -85,6 +85,18 @@ class zookeeper::config(
       proto   => 'tcp',
       state   => ['NEW'],
       dport   => $client_port,
+      action  => 'accept',
+    }
+    firewall { "101 allow zookeeper:2888":
+      proto   => 'tcp',
+      state   => ['NEW'],
+      dport   => 2888,
+      action  => 'accept',
+    }
+    firewall { "102 allow zookeeper:3888":
+      proto   => 'tcp',
+      state   => ['NEW'],
+      dport   => 3888,
       action  => 'accept',
     }
   }
