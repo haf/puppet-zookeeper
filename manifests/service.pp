@@ -1,6 +1,5 @@
 class zookeeper::service(
-  $ensure = 'running',
-  $enable = true
+  $ensure = 'running'
 ) {
   $user       = $zookeeper::user
   $group      = $zookeeper::group
@@ -17,15 +16,14 @@ class zookeeper::service(
   $classpath = globby_join("$bin_dir/{../lib,..}/*.jar", ':')
   $log_conf = 'file:///etc/zookeeper/log4j.properties'
 
-  svcutils::mixsvc { 'zookeeper':
+  supervisor::service { 'zookeeper':
     ensure      => $ensure,
-    enable      => $enable,
     user        => $user,
     group       => $group,
-    log_dir     => $log_dir,
-    home        => $data_dir,
-    exec        => "/usr/bin/java -Dzookeeper.log.dir=${log_dir} -Dlog4j.configuration=$log_conf -Dzookeeper.root.logger=${log4j_prop} -cp $classpath org.apache.zookeeper.server.quorum.QuorumPeerMain ${etc_dir}/zoo.cfg",
-    description => 'ZooKeeper Server'
+    directory   => $data_dir,
+    command     => "/usr/bin/java -Dzookeeper.log.dir=${log_dir} -Dlog4j.configuration=$log_conf \
+-Dzookeeper.root.logger=${log4j_prop} -cp $classpath org.apache.zookeeper.server.quorum.QuorumPeerMain \
+${etc_dir}/zoo.cfg",
   }
 }
 

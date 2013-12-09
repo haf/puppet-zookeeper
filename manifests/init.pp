@@ -23,8 +23,6 @@ class zookeeper(
   # env FACTER_ZK_MYID=44 facter --puppet zk_myid
   # => 44
 ) inherits zookeeper::params {
-  include svcutils
-
   $bin_dir  = "$zk_dir/bin"
   $snap_dir = $data_dir
 
@@ -35,13 +33,31 @@ class zookeeper(
     system  => true,
     require => Anchor['zookeeper::start'],
     before  => Anchor['zookeeper::end'],
-  } ->
+  }
 
-  svcutils::svcuser { $user:
-    group   => $group,
-    require => Anchor['zookeeper::start'],
+  user { $user:
+    ensure  => 'present',
+    gid     => $group,
+    system  => true,
+    home    => $zk_dir,
+    require => [
+      Anchor['zookeeper::start'],
+      Group[$group]
+    ],
     before  => Anchor['zookeeper::end'],
-  } ->
+  }
+
+  file { $zk_dir:
+    ensure  => directory,
+    owner   => $user,
+    group   => $group,
+    mode    => '0755',
+    require => [
+      Anchor['zookeeper::start'],
+      User[$user]
+    ],
+    before  => Anchor['zookeeper::end'],
+  }
 
   class { 'zookeeper::package':
     require => [
@@ -63,7 +79,6 @@ class zookeeper(
 
   class { "zookeeper::service":
     ensure  => "running",
-    enable  => true,
     require => [ 
       Anchor['zookeeper::start'],
       Class['zookeeper::config']
