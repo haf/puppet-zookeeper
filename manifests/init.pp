@@ -47,18 +47,6 @@ class zookeeper(
     before  => Anchor['zookeeper::end'],
   }
 
-  file { $zk_dir:
-    ensure  => directory,
-    owner   => $user,
-    group   => $group,
-    mode    => '0755',
-    require => [
-      Anchor['zookeeper::start'],
-      User[$user]
-    ],
-    before  => Anchor['zookeeper::end'],
-  }
-
   class { 'zookeeper::package':
     require => [
       Anchor['zookeeper::start'], 
