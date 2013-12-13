@@ -48,10 +48,7 @@ class zookeeper(
   }
 
   class { 'zookeeper::package':
-    require => [
-      Anchor['zookeeper::start'], 
-      Class['java']
-    ],
+    require => Anchor['zookeeper::start'],
     before  => Anchor['zookeeper::end'],
   } ->
 
@@ -69,6 +66,7 @@ class zookeeper(
     ensure  => "running",
     require => [ 
       Anchor['zookeeper::start'],
+      Class['java'],
       Class['zookeeper::config']
     ],
     before  => Anchor['zookeeper::end'],
