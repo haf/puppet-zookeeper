@@ -6,9 +6,19 @@ class zookeeper::package inherits zookeeper::params {
   $group        = $zookeeper::group
 
 
+
+  # spec file for zookeeper rpm can be found at https://github.com/skottler/zookeeper-rpms
+  # currently 20140521   nc is a missing dependency in the specfile
+
+
   package { 'zookeeper':
     ensure => $version,
   }
+
+  package {'zookeper':
+    ensure => present,
+  }
+
 
   #  wget::fetch { 'download_zookeeper':
   #  source      => $download_url,
