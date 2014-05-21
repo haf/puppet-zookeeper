@@ -15,7 +15,7 @@ class zookeeper::package inherits zookeeper::params {
     ensure => $version,
   }
 
-  package {'zookeper':
+  package {'nc':
     ensure => present,
   }
 
