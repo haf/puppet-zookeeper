@@ -3,7 +3,6 @@ class zookeeper::params {
   $download_url_base = 'http://apache.mirror3.ip-only.net/zookeeper'
 
   $myid        = hiera('myid', '1')
-  
   # directories
   $zk_dir      = '/opt/zookeeper'
   $log_dir     = '/var/log/zookeeper'
@@ -13,7 +12,6 @@ class zookeeper::params {
   # knowns
   $java_bin    = '/usr/bin/java'
   $java_opts   = ''
-  
   $client_port = 2181 # 2888:3888
   $snap_count  = 10000
   $user        = 'zookeeper'
