@@ -1,5 +1,6 @@
 class zookeeper::service(
-  $ensure = 'running'
+  $ensure = 'running',
+  $enabled = 'true'
 ) {
   $user       = $zookeeper::user
   $group      = $zookeeper::group
@@ -16,15 +17,22 @@ class zookeeper::service(
   $classpath = globby_join("$bin_dir/{../lib,..}/*.jar", ':')
   $log_conf = 'file:///etc/zookeeper/log4j.properties'
 
-  supervisor::service { 'zookeeper':
-    ensure      => $ensure,
-    user        => $user,
-    group       => $group,
-    directory   => $data_dir,
-    command     => "/usr/bin/java -Dzookeeper.log.dir=${log_dir} -Dlog4j.configuration=$log_conf \
--Dzookeeper.root.logger=${log4j_prop} -cp $classpath org.apache.zookeeper.server.quorum.QuorumPeerMain \
-${etc_dir}/zoo.cfg",
+  #  supervisor::service { 'zookeeper':
+  #  ensure      => 'present',
+  #  user        => $user,
+  #  group       => $group,
+  #  directory   => $data_dir,
+  #  command     => "/usr/bin/java -Dzookeeper.log.dir=${log_dir} -Dlog4j.configuration=$log_conf \
+  #-Dzookeeper.root.logger=${log4j_prop} -cp $classpath org.apache.zookeeper.server.quorum.QuorumPeerMain \ 
+  # ${etc_dir}/zoo.cfg",
+  #}
+
+
+  service { 'zookeeper':
+    ensure => $ensure,
+    enable => $enabled,
   }
+
 }
 
 # \"-Dzookeeper.log.dir=${ZOO_LOG_DIR}\" \"-Dzookeeper.root.logger=${ZOO_LOG4J_PROP}\" -cp ${CLASSPATH} ${ZOOMAIN} ${ZOOCFG}

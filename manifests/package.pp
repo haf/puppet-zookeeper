@@ -5,30 +5,36 @@ class zookeeper::package inherits zookeeper::params {
   $user         = $zookeeper::user
   $group        = $zookeeper::group
 
-  wget::fetch { 'download_zookeeper':
-    source      => $download_url,
-    destination => "/usr/local/src/zookeeper-$version.tar.bz",
-    before      => Exec['untar_zookeeper'],
-    require     => Class['wget'],
+
+  package { 'zookeeper':
+    ensure => $version,
   }
 
-  exec { 'untar_zookeeper':
-    command => "/bin/tar xzf /usr/local/src/zookeeper-$version.tar.bz",
-    cwd     => '/opt',
-    creates => "${zk_dir}-$version",
-  }
+  #  wget::fetch { 'download_zookeeper':
+  #  source      => $download_url,
+  #  destination => "/usr/local/src/zookeeper-$version.tar.bz",
+  #  before      => Exec['untar_zookeeper'],
+  #  require     => Class['wget'],
+  #}
 
-  file { "${zk_dir}-$version":
-    ensure  => directory,
-    owner   => $user,
-    group   => $group,
-    recurse => true,
-    require => Exec['untar_zookeeper'],
-  }
+  #exec { 'untar_zookeeper':
+  #  command => "/bin/tar xzf /usr/local/src/zookeeper-$version.tar.bz",
+  #  cwd     => '/opt',
+  #  creates => "${zk_dir}-$version",
+  #}
 
-  file { $zk_dir:
-    ensure  => link,
-    target  => "${zk_dir}-$version",
-    require => File["${zk_dir}-$version"],
-  }
+  #file { "${zk_dir}-$version":
+  #$  ensure  => directory,
+  # owner   => $user,
+  #  group   => $group,
+  #  recurse => true,
+  #  require => Exec['untar_zookeeper'],
+  #}
+
+  #file { $zk_dir:
+  #  ensure  => link,
+  #  target  => "${zk_dir}-$version",
+  #  require => File["${zk_dir}-$version"],
+  #}
+
 }

@@ -1,5 +1,5 @@
 class zookeeper::params {
-  $version           = '3.4.5'
+  $version           = '3.4.5-1'
   $download_url_base = 'http://apache.mirror3.ip-only.net/zookeeper'
 
   $myid        = hiera('myid', '1')
