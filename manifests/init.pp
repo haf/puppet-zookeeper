@@ -1,6 +1,6 @@
 /*
  * Parameters:
- * 
+ *
  *   - servers: servers should be declared in the format
  *      of an array, with string items, like:
  *      ['zookeeper3:2888:3888', '...', ...]
@@ -23,7 +23,7 @@ class zookeeper(
   # env FACTER_ZK_MYID=44 facter --puppet zk_myid
   # => 44
 ) inherits zookeeper::params {
-  $bin_dir  = "$zk_dir/bin"
+  $bin_dir  = "${zk_dir}/bin"
   $snap_dir = $data_dir
 
   anchor { 'zookeeper::start': }
@@ -57,20 +57,20 @@ class zookeeper(
   #  before  => Anchor['zookeeper::end'],
   #} ->
 
-  class { 'zookeeper::config': 
+  class { 'zookeeper::config':
     require => Anchor['zookeeper::start'],
     before  => Anchor['zookeeper::end'],
   } ~>
 
-  class { "zookeeper::service":
-    ensure  => "running",
-    require => [ 
+  class { 'zookeeper::service':
+    ensure  => 'running',
+    require => [
       Anchor['zookeeper::start'],
       Class['java'],
       Class['zookeeper::config']
     ],
     before  => Anchor['zookeeper::end'],
-   }
+  }
 
   anchor { 'zookeeper::end': }
 }
